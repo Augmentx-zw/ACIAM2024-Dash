@@ -1,0 +1,178 @@
+﻿@model ArkPortal.Gateway.DTO.ViewModels.PaymentViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link href="~/src/assets/css/light/apps/invoice-preview.css" rel="stylesheet" type="text/css" />
+<link href="~/src/assets/css/dark/apps/invoice-preview.css" rel="stylesheet" type="text/css" />
+<link href="~/src/assets/css/light/components/modal.css" rel="stylesheet" type="text/css" />
+<link href="~/src/assets/css/dark/components/modal.css" rel="stylesheet" type="text/css" />
+
+
+<div class="middle-content container-xxl p-0">
+
+    <div class="row invoice layout-top-spacing layout-spacing">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+            <div class="doc-container">
+
+                <div class="row">
+
+                    <div class="col-xl-9">
+
+                        <div class="invoice-container">
+                            <div class="invoice-inbox">
+
+                                <div id="ct" class="">
+
+                                    <div class="invoice-00001">
+                                        <div class="content-section">
+
+                                            <div class="inv--head-section inv--detail-section">
+
+                                                <div class="row">
+
+                                                    <div class="col-sm-6 col-12 mr-auto">
+                                                        <div class="d-flex">
+                                                            <h3>ACIAM 2024</h3>
+                                                            @*<img height="70px" src="https://www.manhattaninteriors.co.zw/assets/images/mh-logo.png" alt="manhattaninteriors">*@
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6 text-sm-end">
+                                                        <p class="inv-created-date mt-sm-5 mt-3"><span class="inv-title">Sale Date : </span> <span class="inv-date">@Model.UpdatedOn.ToLongDateString()</span></p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="inv--detail-section inv--customer-detail-section">
+
+                                                <div class="row">
+                                                    <div class="col-xl-8 col-lg-7 col-md-6 col-sm-4">
+                                                        <p class="inv-customer-name">@ViewBag.User.Name @ViewBag.User.Surname</p>
+                                                        <p class="inv-street-addr">@ViewBag.User.Address</p>
+                                                        <p class="inv-email-address">@ViewBag.User.Email</p>
+                                                        <p class="inv-email-address">@ViewBag.User.Phone</p>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="inv--product-table-section">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead class="">
+                                                            <tr>
+                                                                <th scope="col">Items</th>
+                                                                <th class="text-end" scope="col">Color</th>
+                                                                <th class="text-end" scope="col">Qty</th>
+                                                                <th class="text-end" scope="col">Price</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in ViewBag.Sales)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="d-flex justify-content-left align-items-center">
+                                                                            <div class="avatar  me-3">
+                                                                                <img src="@ViewBag.Url/@item.Image" alt="@item.Name" width="64" height="64">
+                                                                            </div>
+                                                                            <div class="d-flex flex-column">
+                                                                                <span class="text-truncate fw-bold"> @item.Name</span>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td class="text-end">@item.Color</td>
+                                                                    <td class="text-end">@item.Quantity</td>
+                                                                    <td class="text-end">$@item.Price</td>
+                                                                </tr>
+                                                            }
+                                                           
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="inv--total-amounts">
+
+                                                <div class="row mt-4">
+                                                    <div class="col-sm-5 col-12 order-sm-0 order-1">
+                                                    </div>
+                                                    <div class="col-sm-7 col-12 order-sm-1 order-0">
+                                                        <div class="text-sm-end">
+                                                            <div class="row">
+                                                                <div class="col-sm-8 col-7">
+                                                                    <p class="">Currency :</p>
+                                                                </div>
+                                                                <div class="col-sm-4 col-5">
+                                                                    <p class="">@Model.CurrencyCode</p>
+                                                                </div>
+                                                                <div class="col-sm-8 col-7">
+                                                                    <p class="">Total :</p>
+                                                                </div>
+                                                                <div class="col-sm-4 col-5">
+                                                                    <p class="">$@Model.Amount</p>
+                                                                </div>
+                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="inv--note">
+
+                                                <div class="row mt-4">
+                                                    <div class="col-sm-12 col-12 order-sm-0 order-1">
+                                                        <p>Refrence: @Model.ReferenceNumber</p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-xl-3">
+
+                        <div class="invoice-actions-btn">
+
+                            <div class="invoice-action-btn">
+
+                                <div class="row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12">
+                                        <a href="javascript:void(0);" class="btn btn-primary btn-print action-print">Print</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="~/src/assets/js/apps/invoice-preview.js"></script>

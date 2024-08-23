@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArkPortal.Gateway.DTO", "ArkPortal.Gateway.DTO\ArkPortal.Gateway.DTO.csproj", "{0967DF6F-B964-4D6B-B834-9E671E77AF7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ark.Gateway.Front", "Ark.Gateway.Front\Ark.Gateway.Front.csproj", "{4281E794-71D6-4AC9-B3A0-4EE6B1AAE163}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0967DF6F-B964-4D6B-B834-9E671E77AF7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0967DF6F-B964-4D6B-B834-9E671E77AF7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0967DF6F-B964-4D6B-B834-9E671E77AF7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0967DF6F-B964-4D6B-B834-9E671E77AF7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4281E794-71D6-4AC9-B3A0-4EE6B1AAE163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4281E794-71D6-4AC9-B3A0-4EE6B1AAE163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4281E794-71D6-4AC9-B3A0-4EE6B1AAE163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4281E794-71D6-4AC9-B3A0-4EE6B1AAE163}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40CC0B8C-4E5B-410C-95BB-8DE415909429}
+	EndGlobalSection
+EndGlobal
