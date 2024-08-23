@@ -1,0 +1,99 @@
+﻿@model ArkPortal.Gateway.DTO.ViewModels.ArticleViewModel
+
+@{
+    ViewData["Title"] = "Add Article";
+}
+
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+<link href="~/src/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="~/layouts/modern-light-menu/css/light/plugins.css" rel="stylesheet" type="text/css" />
+<link href="~/layouts/modern-light-menu/css/dark/plugins.css" rel="stylesheet" type="text/css" />
+<!-- END GLOBAL MANDATORY STYLES -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/ui/trumbowyg.min.css" integrity="sha512-Fm8kRNVGCBZn0sPmwJbVXlqfJmPC13zRsMElZenX6v721g/H7OukJd8XzDEBRQ2FSATK8xNF9UYvzsCtUpfeJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!--  BEGIN CONTENT AREA  -->
+
+<div class="container">
+
+    <div class="container">
+
+        <!-- BREADCRUMB -->
+        <div class="page-meta">
+            <nav class="breadcrumb-style-one" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@ViewData["Title"]</li>
+                </ol>
+            </nav>
+        </div>
+        <!-- /BREADCRUMB -->
+
+        <div class="row layout-top-spacing">
+
+            <div id="basic" class="col-lg-12 layout-spacing">
+                <div class="statbox widget box box-shadow">
+                    <div class="widget-header">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                                <h4>@ViewData["Title"]</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-content widget-content-area">
+
+                        <div class="row">
+                            <div class="col-lg-12 col-12 ">
+                                <form asp-action="Create" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <label asp-for="Image" class="control-label"></label>
+                                        <input type='file' accept="image/*" asp-for="TempImage" class="form-control" required />
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Title" class="control-label"></label>
+                                        <input asp-for="Title" class="form-control" />
+                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="YoutubeId" class="control-label"></label>
+                                        <input asp-for="YoutubeId" class="form-control" />
+                                        <span asp-validation-for="YoutubeId" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="Story" class="control-label"></label>
+                                        <textarea asp-for="Story" rows="20" class="form-control"></textarea>
+                                        <span asp-validation-for="Story" class="text-danger"></span>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <div class="form-group">
+                                        <input type="submit" value="Save" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<!-- Import jQuery -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+
+<!-- Import Trumbowyg -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.3/trumbowyg.min.js" integrity="sha512-YJgZG+6o3xSc0k5wv774GS+W1gx0vuSI/kr0E0UylL/Qg/noNspPtYwHPN9q6n59CTR/uhgXfjDXLTRI+uIryg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+    $('#tiny').trumbowyg();
+</script>

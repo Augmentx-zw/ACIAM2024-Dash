@@ -8,25 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ark.Gateway.Front.Controllers
 {
     [Authorize]
-    public class RegistrationController : Controller
+    public class ArticleController : Controller
     {
         private readonly IHttpClientService _client;
         private readonly IFileManager _fm;
         private readonly INotyfService _notifyService;
         private readonly string _imageurl;
 
-        public RegistrationController(IHttpClientService client, INotyfService notifyService, IFileManager fm, IConfiguration configuration)
+        public ArticleController(IHttpClientService client, INotyfService notifyService, IFileManager fm, IConfiguration configuration)
         {
             _client = client;
             _fm = fm;
             _notifyService = notifyService;
-            _imageurl = configuration["ImagePosts"];
+            _imageurl = configuration["ImageUrl"];
         }
         public async Task<IActionResult> Index()
         {
 
-            List<RegistrationViewModel> result = await _client.GetRequest(new List<RegistrationViewModel>(), $"Registration/GetRegistrations");
-
+            List<ArticleViewModel> result = await _client.GetRequest(new List<ArticleViewModel>(), $"Article/GetArticles");
             if (TempData.Peek("Message") != null)
             {
                 string? message = TempData?.Peek("Message")?.ToString();
@@ -50,7 +49,6 @@ namespace Ark.Gateway.Front.Controllers
                         break;
                 }
             }
-
             TempData?.Remove("Message");
             TempData?.Remove("Type");
             ViewBag.Url = _imageurl;
@@ -63,13 +61,19 @@ namespace Ark.Gateway.Front.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RegistrationViewModel vm)
+        public async Task<IActionResult> Create(ArticleViewModel vm)
         {
-            HttpResponseMessage result = await _client.PostRequest(vm, "Registration/AddRegistration");
+            if (vm.TempImage is not null)
+            {
+                var imageName = _fm.SaveImage(vm.TempImage);
+                vm.Image = imageName;
+            }
+            
+            HttpResponseMessage result = await _client.PostRequest(vm, "Article/AddArticle");
             result.EnsureSuccessStatusCode();
             if (result.IsSuccessStatusCode)
             {
-                TempData["Message"] = "Added new Registration";
+                TempData["Message"] = "Added new Article";
                 TempData["Type"] = "Success";
                 TempData.Keep();
                 return RedirectToAction("Index");
@@ -77,9 +81,34 @@ namespace Ark.Gateway.Front.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> Registration(Guid id)
+
+        public async Task<IActionResult> Edit(Guid Id)
         {
-            var result = await _client.GetRequest(new RegistrationViewModel(), $"Registration/GetRegistration?Registration={id}");
+            ArticleViewModel result = await _client.GetRequest(new ArticleViewModel(), $"Article/GetArticle?ArticleId={Id}");
+            return View(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ArticleViewModel vm)
+        {
+            ArticleViewModel tmp = await _client.GetRequest(new ArticleViewModel(), $"Article/GetArticle?ArticleId={vm.ArticleId}");
+            vm.Image = tmp.Image;
+            HttpResponseMessage result = await _client.PostRequest(vm, "Article/UpdateArticle");
+            result.EnsureSuccessStatusCode();
+            if (result.IsSuccessStatusCode)
+            {
+                TempData["Message"] = "Added new Article";
+                TempData["Type"] = "Success";
+                TempData.Keep();
+                return RedirectToAction("Index");
+            }
+            return View(vm);
+        }
+
+
+        public async Task<IActionResult> Article(Guid id)
+        {
+            var result = await _client.GetRequest(new ArticleViewModel(), $"Article/GetArticle?Article={id}");
             return View(result);
         }
 
@@ -112,14 +141,14 @@ namespace Ark.Gateway.Front.Controllers
             TempData?.Remove("Type");
             ViewBag.Url = _imageurl;
 
-            var result = await _client.GetRequest(new RegistrationViewModel(), $"Registration/GetRegistration?Registration={id}");
+            var result = await _client.GetRequest(new ArticleViewModel(), $"Article/GetArticle?Article={id}");
             return View(result);
         }
 
         public async Task<IActionResult> Delete(Guid id)
         {
-            var Registration = new RegistrationViewModel { RegistrationId = id };
-            HttpResponseMessage result = await _client.PostRequest(Registration, "Registration/DeleteRegistration");
+            var Article = new ArticleViewModel { ArticleId = id };
+            HttpResponseMessage result = await _client.PostRequest(Article, "Article/DeleteArticle");
             ErrorCheck check = ValidationResponseCheck.IsValidResponse(result);
             if (!check.Error)
             {
@@ -134,16 +163,41 @@ namespace Ark.Gateway.Front.Controllers
             }
         }
 
-        public async Task<IActionResult> Update(RegistrationViewModel vm)
+        public async Task<IActionResult> UpdateImage(Guid ArticleId, IFormFile TempImage)
         {
-            HttpResponseMessage result = await _client.PostRequest(vm, "Registration/UpdateRegistration");
+            var res = await _client.GetRequest(new ArticleViewModel(), $"Article/GetArticle?Article={ArticleId}");
+
+            if (TempImage is not null)
+            {
+                res.Image = _fm.SaveImage(TempImage);
+            }
+
+            HttpResponseMessage result = await _client.PostRequest(res, "Article/UpdateArticle");
             ErrorCheck check = ValidationResponseCheck.IsValidResponse(result);
             if (!check.Error)
             {
                 TempData["Message"] = "Success";
                 TempData["Type"] = "Information";
                 TempData.Keep();
-                return RedirectToAction("Details", new { id = vm.RegistrationId });
+                return RedirectToAction("Details", new { id = res.ArticleId });
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = res.ArticleId });
+
+            }
+        }
+
+        public async Task<IActionResult> Update(ArticleViewModel vm)
+        {
+            HttpResponseMessage result = await _client.PostRequest(vm, "Article/UpdateArticle");
+            ErrorCheck check = ValidationResponseCheck.IsValidResponse(result);
+            if (!check.Error)
+            {
+                TempData["Message"] = "Success";
+                TempData["Type"] = "Information";
+                TempData.Keep();
+                return RedirectToAction("Details", new { id = vm.ArticleId });
             }
             else
             {
